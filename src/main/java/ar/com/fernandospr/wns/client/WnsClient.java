@@ -2,6 +2,7 @@ package ar.com.fernandospr.wns.client;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.ws.rs.client.*;
@@ -15,10 +16,9 @@ import ar.com.fernandospr.wns.model.*;
 import ar.com.fernandospr.wns.model.types.WnsNotificationType;
 import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
 import com.fasterxml.jackson.jaxrs.xml.JacksonJaxbXMLProvider;
-import org.glassfish.jersey.apache.connector.ApacheConnectorProvider;
 import org.glassfish.jersey.client.ClientConfig;
 import org.glassfish.jersey.client.ClientProperties;
-import org.glassfish.jersey.filter.LoggingFilter;
+import org.glassfish.jersey.logging.LoggingFeature;
 import org.glassfish.jersey.internal.util.collection.MultivaluedStringMap;
 
 
@@ -59,10 +59,9 @@ public class WnsClient {
 
         Client client = ClientBuilder.newClient(clientConfig);
         if (logging) {
-            LoggingFilter loggingFilter = new LoggingFilter(
-                    Logger.getLogger(WnsClient.class.getName()), true);
+			LoggingFeature feature = new LoggingFeature(Logger.getLogger(WnsClient.class.getName()), Level.INFO, null, null);
 
-            client = client.register(loggingFilter);
+            client = client.register(feature);
         }
         return client;
     }
